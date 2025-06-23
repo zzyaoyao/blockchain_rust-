@@ -1,5 +1,5 @@
 use clap::Parser;
-use log::info;
+use log::{info, LevelFilter};
 use simple_logger::SimpleLogger;
 
 mod block;
@@ -13,7 +13,10 @@ mod wallets;
 use crate::cli::Cli;
 
 fn main() -> anyhow::Result<()> {
-    SimpleLogger::new().init()?;
+    SimpleLogger::new()
+        .with_level(LevelFilter::Info)
+        .with_module_level("sled", LevelFilter::Warn)
+        .init()?;
     info!("Starting blockchain node");
 
     let cli = Cli::parse();
